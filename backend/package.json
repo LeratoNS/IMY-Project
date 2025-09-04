@@ -1,0 +1,1 @@
+{"name":"imy220-backend","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node server.js"},"dependencies":{"cookie-parser":"1.4.7","cors":"2.8.5","express":"4.19.2","framer-motion":"^12.23.12","morgan":"1.10.0"}}
