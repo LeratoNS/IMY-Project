@@ -1,3 +1,4 @@
+// Lerato Sibanda u22705504 P-14
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App.js';

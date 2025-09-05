@@ -1,102 +1,132 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+// Lerato Sibanda u22705504 P-14
+import { useState } from 'react';
 
-
-export default function CreateProject({ onCreate }) {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [type, setType] = useState("web");
-  const [tags, setTags] = useState("");
-  const [version, setVersion] = useState("1.0.0");
-  const [image, setImage] = useState(null);
-
-  function handleImage(e) {
-    const file = e.target.files[0];
-    if (file && file.size <= 5 * 1024 * 1024) {
-      setImage(URL.createObjectURL(file));
-    } else {
-      alert("Image must be ≤ 5MB");
-    }
-  }
+export default function CreateProject({ onCreate, onCancel }) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [files, setFiles] = useState('');
+  const [messages, setMessages] = useState('');
 
   function submit(e) {
     e.preventDefault();
-    if (!name.trim() || desc.length < 10) return;
+    if (!name.trim() || description.length < 10) return;
 
-    onCreate?.({
+    const newProject = {
       id: `p${Math.random().toString(36).slice(2, 7)}`,
-      name,
-      description: desc,
-      type,
-      hashtags: tags.split(" ").filter((t) => t.startsWith("#")),
-      version,
-      createdAt: new Date().toISOString(),
-      image,
-      files: [],
-      messages: [],
-    });
+      name: name.trim(),
+      description: description.trim(),
+      files: files.split('\n').map(file => file.trim()).filter(file => file),
+      messages: messages.split('\n').map(msg => msg.trim()).filter(msg => msg),
+      createdAt: new Date().toISOString()
+    };
 
-    setName("");
-    setDesc("");
-    setTags("");
-    setVersion("1.0.0");
-    setImage(null);
+    onCreate?.(newProject);
+    // Reset form
+    setName('');
+    setDescription('');
+    setFiles('');
+    setMessages('');
   }
 
+  const isFormValid = name.trim().length >= 2 && description.trim().length >= 10;
+
   return (
-    <form className="card grid" onSubmit={submit}>
-      <h3>Create Project</h3>
-      <label>
-        Project Name
-        <input
-          className="input"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Description
-        <textarea
-          className="input"
-          rows="3"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Type
-        <select className="input" value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="web">Web</option>
-          <option value="desktop">Desktop</option>
-          <option value="mobile">Mobile</option>
-          <option value="library">Library</option>
-        </select>
-      </label>
-      <label>
-        Programming Languages (hashtags)
-        <input
-          className="input"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          placeholder="#JavaScript #Python"
-        />
-      </label>
-      <label>
-        Version
-        <input
-          className="input"
-          value={version}
-          onChange={(e) => setVersion(e.target.value)}
-        />
-      </label>
-      <label>
-        Project Image
-        <input className="input" type="file" accept="image/*" onChange={handleImage} />
-      </label>
-      {image && <img src={image} alt="Preview" style={{ maxWidth: "150px", marginTop: "0.5rem" }} />}
-      <button className="button">Create</button>
-    </form>
+    <div className="card grid" style={{ marginBottom: "1.5rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+        <h3 style={{ margin: 0 }}>Create New Project</h3>
+        <button
+          type="button"
+          className="button"
+          onClick={onCancel}
+          style={{ background: "#6b7280", padding: "0.5rem 1rem" }}
+        >
+          × Cancel
+        </button>
+      </div>
+
+      <form onSubmit={submit} className="grid" style={{ gap: "1rem" }}>
+        {/* Project Name */}
+        <div>
+          <label htmlFor="project-name" style={{ display: "block", marginBottom: "0.5rem", color: "#e2e8f0" }}>
+            Project Name *
+          </label>
+          <input
+            id="project-name"
+            className="input"
+            placeholder="e.g., Gamma"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            minLength={2}
+          />
+        </div>
+
+        {/* Description */}
+        <div>
+          <label htmlFor="project-description" style={{ display: "block", marginBottom: "0.5rem", color: "#e2e8f0" }}>
+            Description *
+          </label>
+          <textarea
+            id="project-description"
+            className="input"
+            rows="3"
+            placeholder="e.g., A full-stack application (minimum 10 characters)"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            required
+            minLength={10}
+          ></textarea>
+        </div>
+
+        {/* Files */}
+        <div>
+          <label htmlFor="project-files" style={{ display: "block", marginBottom: "0.5rem", color: "#e2e8f0" }}>
+            Files (one per line)
+          </label>
+          <textarea
+            id="project-files"
+            className="input"
+            rows="3"
+            placeholder="client.js&#10;server.js&#10;database.js"
+            value={files}
+            onChange={e => setFiles(e.target.value)}
+            style={{ fontFamily: 'monospace' }}
+          ></textarea>
+          <small style={{ color: "#94a3b8", fontSize: "0.8rem" }}>
+            Enter one file name per line
+          </small>
+        </div>
+
+        {/* Messages */}
+        <div>
+          <label htmlFor="project-messages" style={{ display: "block", marginBottom: "0.5rem", color: "#e2e8f0" }}>
+            Messages (one per line)
+          </label>
+          <textarea
+            id="project-messages"
+            className="input"
+            rows="3"
+            placeholder="Project started&#10;Added database connection"
+            value={messages}
+            onChange={e => setMessages(e.target.value)}
+            style={{ fontFamily: 'monospace' }}
+          ></textarea>
+          <small style={{ color: "#94a3b8", fontSize: "0.8rem" }}>
+            Enter one message per line
+          </small>
+        </div>
+
+        <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end", marginTop: "1rem" }}>
+          <button
+            type="submit"
+            className="button"
+            disabled={!isFormValid}
+            style={{ minWidth: "120px" }}
+          >
+            Create Project
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

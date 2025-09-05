@@ -5,11 +5,6 @@ import { motion } from "framer-motion";
 export default function Splash(){
 return (
 <div style={{ display:'grid', gap:'1rem', maxWidth:900, margin:'3rem auto' }}>
-{/* <header style={{ textAlign: "center", padding: "2rem" }}>
-  <img src="/assets/images/logo.png" alt="Logo" style={{ height: "80px" }} />
-  <h1>Welcome to Collab Code</h1>
-  <p>Collaborate, manage, and track your coding projects with ease.</p>
-</header> */}
 
 <motion.section
   initial={{ opacity: 0, y: 50 }}

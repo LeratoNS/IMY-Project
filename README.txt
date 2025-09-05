@@ -39,7 +39,3 @@ docker run -p 5173:5173 --name imy220-d1 --rm imy220-d1
 
 
 http://localhost:8080/home → Home page (feed + create project form).
-
-http://localhost:8080/profile/u1 → Profile page for Lerato (dummy data).
-
-http://localhost:8080/project/p1 → Project page for “Alpha”.

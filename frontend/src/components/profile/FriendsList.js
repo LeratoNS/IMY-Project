@@ -1,10 +1,11 @@
+// Lerato Sibanda u22705504 P-14
 import ProfilePreview from '../ProfilePreview.js';
 
 
-export default function FriendsList({ users }){
-return (
-<aside className="grid">
-{users.map(u => <ProfilePreview key={u.id} user={u} />)}
-</aside>
-);
+export default function FriendsList({ users }) {
+    return (
+        <aside className="grid">
+            {users.map(u => <ProfilePreview key={u.id} user={u} />)}
+        </aside>
+    );
 }
