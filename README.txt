@@ -15,16 +15,16 @@ Build Frontend & Backend locally
 4. Start backend (serves built frontend): npm start
 
 
-Open http://localhost:5173 (Docker) or http://localhost:8080
+Open http://localhost:8080 (Docker) or http://localhost:8080
 
 
 Docker (single container for API + static site)
 
 # Build image
-docker build -t imy220-d1 .
+docker build -t u22705504 .
 
 # Run
-docker run -p 5173:5173 --name imy220-d1 --rm imy220-d1
+docker run -p 8080:8080 u22705504
 
 #Postman testing login
 # http://localhost:8080/api/auth/login

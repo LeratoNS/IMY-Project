@@ -12,6 +12,6 @@ RUN cd backend && npm ci
 COPY backend/ ./backend/
 RUN mkdir -p backend/public
 COPY --from=build-frontend /app/frontend/dist/ ./backend/public/
-EXPOSE 5173
+EXPOSE 8080
 WORKDIR /app/backend
 CMD ["npm", "start"]
